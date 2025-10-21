@@ -83,59 +83,57 @@ with st.form("my_form", border=False): #st.form ฟอร์มสำหรบ�
 # st.markdown(custom_css, unsafe_allow_html=True)
 # ------------------------------------------------------------------
 
-# 1. กำหนด Columns
+recommended_job_config = {
+	'scg_figma': {
+		'logo': 'src/img/scg_logo.svg',
+		'title': 'Figma Designer',
+		'company': 'The Siam Cement Public Company Limited (SCG)',
+		'location': 'Bangkok',
+		'salary': '฿9,500 per month', 
+		'description': 'We are looking for Figma designers who can help design the entire mobile application ...',
+		'skills': ['Ui Designer', 'Figma', 'Landing Page', 'User Research']
+	},
+	'scg_ux': {
+		'logo': 'src/img/scg_logo.svg',
+		'title': 'UX Designer',
+		'company': 'The Siam Cement Public Company Limited (SCG)',
+		'location': 'Bangkok',
+		'salary': '฿12,000 per month',
+		'description': 'Join our UX team to create intuitive and delightful experiences for users ...',
+  		'skills': ['Ui Designer', 'Figma', 'Landing Page']
+	},
+	'scg_ug': {
+		'logo': 'src/img/scg_logo.svg',
+		'title': 'UX Designer',
+		'company': 'The Siam Cement Public Company Limited (SCG)',
+		'location': 'Bangkok',
+		'salary': '฿12,000 per month',
+		'description': 'Join our UX team to create intuitive and delightful experiences for users ...',
+  		'skills': ['Ui Designer', 'Figma']
+	},
+	'scg_ui': {
+		'logo': 'src/img/scg_logo.svg',
+		'title': 'UX Designer',
+		'company': 'The Siam Cement Public Company Limited (SCG)',
+		'location': 'Bangkok',
+		'salary': '฿12,000 per month',
+		'description': 'Join our UX team to create intuitive and delightful experiences for users ...',
+		'skills': ['Ui Designer', 'Figma']
+	}
+}
+
 empty_c1, col_2, col_3, empty_c4 = st.columns([0.5, 5.5, 3.5, 0.5])
 
-with col_2:
-	st.write("Recommend Job")
-  
-    # # 2. เปิด Container ด้วย HTML Div Tag พร้อม Class ที่กำหนดสไตล์
-    # st.markdown('<div class="custom-padded-box">', unsafe_allow_html=True)
-    
-    # # 3. ใส่เนื้อหาเปล่า (หรือเนื้อหาที่คุณต้องการ) ภายใน Container นี้
-    # st.subheader("นี่คือกล่องที่มี Padding และ Background Color")
-    # st.write("กล่องนี้ถูกสร้างโดยใช้ **HTML/CSS (st.markdown)** และรองรับ Streamlit ทุกเวอร์ชัน")
-    # st.info("คุณสามารถใส่ Streamlit Elements อื่นๆ ภายในกล่องนี้ได้")
-    
-    # # ตัวอย่างการแสดงพื้นที่ว่าง (padding เปล่าๆ)
-    # st.empty() 
-
-    # # 4. ปิด Container ด้วย HTML Div Tag
-    # st.markdown('</div>', unsafe_allow_html=True)
-	recommended_job_config = {
-		'scg_figma': {
-			'logo': 'src/img/scg_logo.svg',
-			'title': 'Figma Designer',
-			'company': 'The Siam Cement Public Company Limited (SCG)',
-			'location': 'Bangkok',
-			'salary': '฿9,500 per month',
-			'description': 'We are looking for Figma designers who can help design the entire mobile application ...'
-		},
-		'scg_ux': {
-			'logo': 'src/img/scg_logo.svg',
-			'title': 'UX Designer',
-			'company': 'The Siam Cement Public Company Limited (SCG)',
-			'location': 'Bangkok',
-			'salary': '฿12,000 per month',
-			'description': 'Join our UX team to create intuitive and delightful experiences for users ...'
-		},
-		'scg_ug': {
-			'logo': 'src/img/scg_logo.svg',
-			'title': 'UX Designer',
-			'company': 'The Siam Cement Public Company Limited (SCG)',
-			'location': 'Bangkok',
-			'salary': '฿12,000 per month',
-			'description': 'Join our UX team to create intuitive and delightful experiences for users ...'
-		}
-	}
-
-	# Display job cards
-	for key, job in recommended_job_config.items():
+# Display job cards
+for key, job in recommended_job_config.items():
+	with col_2:
+		if key == list(recommended_job_config.keys())[0]:
+			st.write("Recommend Job")
 		st.markdown(f"""
 		<div class='d-flex flex-row bg-white text-dark' 
 			style='height: 155px; border-radius: 10px; padding: 18px 36px; margin-bottom: 20px;'>
 			<div class='d-flex flex-row align-items-center' style='flex: 1;'>
-				<div style='margin-right: 20px;'>
+				<div style='margin: 20px;'>
 					<img src="data:image/svg+xml;base64,{load_image(job['logo'])}" width="50"/>
 				</div>
 				<div>
@@ -152,12 +150,51 @@ with col_2:
 		</div>
 		""", unsafe_allow_html=True)
 
+def create_skill_badge(skills: list):
+    badges_html = ""
+    for skill in skills:
+        badges_html += f"""
+        <div style='
+            display: inline-block;
+            background-color: rgb(219, 222, 229);
+            color: rgb(101, 101, 101);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 500;
+            margin: 0;'>{skill}</div>
+        """
+    return badges_html  # คืนค่า HTML เป็น string
 
-with col_3:
-  st.info("คอลัมน์ด้านข้าง")
+for key, job in recommended_job_config.items():
+    with col_3:
+        if key == list(recommended_job_config.keys())[0]:
+            st.write("Skill Matching")
 
-st.markdown("---")
-st.write("โค้ดนี้ถูกแก้ไขให้ใช้ **`st.markdown`** เพื่อหลีกเลี่ยง `AttributeError`")
+        st.markdown(f"""
+        <div style='
+            background-color: white;
+            color: black;
+            height: 155px;
+            border-radius: 10px;
+            padding: 18px 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            '>
+            <div style='
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: flex-start;
+                align-items: center;
+                overflow: auto;
+                padding-top: 8px;'>
+                {create_skill_badge(job['skills'])}
+        </div>
+        """, unsafe_allow_html=True)
+
 
 # ---------------------------------------------------------------------------- #
 
