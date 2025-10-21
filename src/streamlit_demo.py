@@ -128,7 +128,7 @@ empty_c1, col_2, col_3, empty_c4 = st.columns([0.5, 5.5, 3.5, 0.5])
 for key, job in recommended_job_config.items():
 	with col_2:
 		if key == list(recommended_job_config.keys())[0]:
-			st.write("Recommend Job")
+			st.markdown("<h4 style='color:#1E3A8A; font-size:20px; font-weight:600;'>Recommend Job</h4>",unsafe_allow_html=True)
 		st.markdown(f"""
 		<div class='d-flex flex-row bg-white text-dark' 
 			style='height: 155px; border-radius: 10px; padding: 18px 36px; margin-bottom: 20px;'>
@@ -169,8 +169,7 @@ def create_skill_badge(skills: list):
 for key, job in recommended_job_config.items():
     with col_3:
         if key == list(recommended_job_config.keys())[0]:
-            st.write("Skill Matching")
-
+            st.markdown("<h4 style='color:#1E3A8A; font-size:20px; font-weight:600;'>Skill Matching</h4>",unsafe_allow_html=True)
         st.markdown(f"""
         <div style='
             background-color: white;
