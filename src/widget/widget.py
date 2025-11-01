@@ -54,37 +54,69 @@ from function.public_function import load_css, load_image
 #     </nav>
 #     """, unsafe_allow_html=True)
 
+
+#--------------------------- navbar ที่ใช้ได้ ---------------------------#
+# def navbar():
+#     return st.markdown(f"""
+#         <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background: linear-gradient(90deg, rgb(229, 120, 91) 0%, rgb(25, 39, 104) 50%);">
+#         <div class="container-fluid d-flex justify-content-between align-items-center">
+#             <div class="navbar-left d-flex align-items-center">
+#             <img src="data:image/svg+xml;base64,{load_image('src/img/skillpath.svg')}" alt="Logo" width="90">
+#             </div>
+#             <div class="navbar-center">
+#             <ul class="navbar-nav mx-auto bg-white rounded-pill px-3 py-1 " style="border-radius: 5px; line-height: 1px;">
+#                 <li class="nav-item px-3">
+#                 <a class="nav-link text-dark font-weight-meduim">Home</a>
+#                 </li>
+#                 <li class="nav-item px-3">
+#                 <a class="nav-link text-dark font-weight-meduim">My Job Applied</a>
+#                 </li>
+#             </ul>
+#             </div>
+#             <div class="navbar-right d-flex align-items-center">
+#             <a class="nav-link text-white mx-2">For Company</a>
+#             <a class="nav-link text-white mx-2">My Profile</a>
+#             <img src="data:image/svg+xml;base64,{load_image('src/img/Bell.svg')}" alt="Logo" width="17" style="margin: 6px;">
+#             <img src="data:image/svg+xml;base64,{load_image('src/img/bookmark.svg')}" alt="Logo" width="17" style="margin: 6px;">
+#             <img src="data:image/svg+xml;base64,{load_image('src/img/letter.svg')}" alt="Logo" width="17" style="margin: 6px;">
+#             <img src="data:image/svg+xml;base64,{load_image('src/img/Frame.svg')}" alt="User" width="20" style="margin: 6px;">
+#             </div>
+
+#         </div>
+#         </nav>
+#     """, unsafe_allow_html=True)
+
 def navbar():
-    return st.markdown(f"""
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background: linear-gradient(90deg, rgb(229, 120, 91) 0%, rgb(25, 39, 104) 50%);">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-            <div class="navbar-left d-flex align-items-center">
-            <img src="data:image/svg+xml;base64,{load_image('src/img/skillpath.svg')}" alt="Logo" width="90">
+    st.markdown(f"""
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark"
+            style="background: linear-gradient(90deg, rgb(229, 120, 91) 0%, rgb(25, 39, 104) 50%);
+                   padding: 10px 40px;">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+                <div class="navbar-left d-flex align-items-center">
+                    <img src="data:image/svg+xml;base64,{load_image('src/img/skillpath.svg')}" width="90">
+                </div>
+                <div class="navbar-center">
+                    <ul class="navbar-nav mx-auto bg-white rounded-pill px-3 py-1" style="border-radius: 5px; line-height: 1px;">
+                        <li class="nav-item px-3">
+                            <a class="nav-link text-dark font-weight-medium" target="_self" href="/">Home</a>
+                        </li>
+                        <li class="nav-item px-3">
+                            <a class="nav-link text-dark font-weight-medium" target="_self" href="/My_Job_Applied">My Job Applied</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar-right d-flex align-items-center">
+                    <a class="nav-link text-white font-weight-medium" target="_self" href="/For_Company">For Company</a>
+                    <a class="nav-link text-white font-weight-medium" target="_self" href="/Student_Profile">My Profile</a>
+                    <img src="data:image/svg+xml;base64,{load_image('src/img/Bell.svg')}" width="17" style="margin: 6px;">
+                    <img src="data:image/svg+xml;base64,{load_image('src/img/bookmark.svg')}" width="17" style="margin: 6px;">
+                    <img src="data:image/svg+xml;base64,{load_image('src/img/letter.svg')}" width="17" style="margin: 6px;">
+                    <img src="data:image/svg+xml;base64,{load_image('src/img/Frame.svg')}" width="20" style="margin: 6px;">
+                </div>
             </div>
-            <div class="navbar-center">
-            <ul class="navbar-nav mx-auto bg-white rounded-pill px-3 py-1 " style="border-radius: 5px; line-height: 1px;">
-                <li class="nav-item px-3">
-                <a class="nav-link text-dark font-weight-meduim">Home</a>
-                </li>
-                <li class="nav-item px-3">
-                <a class="nav-link text-dark font-weight-meduim">My Job Applied</a>
-                </li>
-            </ul>
-            </div>
-            <div class="navbar-right d-flex align-items-center">
-            <a class="nav-link text-white mx-2">For Company</a>
-            <a class="nav-link text-white mx-2">My Profile</a>
-            <img src="data:image/svg+xml;base64,{load_image('src/img/Bell.svg')}" alt="Logo" width="17" style="margin: 6px;">
-            <img src="data:image/svg+xml;base64,{load_image('src/img/bookmark.svg')}" alt="Logo" width="17" style="margin: 6px;">
-            <img src="data:image/svg+xml;base64,{load_image('src/img/letter.svg')}" alt="Logo" width="17" style="margin: 6px;">
-            <img src="data:image/svg+xml;base64,{load_image('src/img/Frame.svg')}" alt="User" width="20" style="margin: 6px;">
-            </div>
-
-        </div>
         </nav>
+        <br><br><br>
     """, unsafe_allow_html=True)
-
-
 
 def script_footer():
     return st.markdown("""
