@@ -2,7 +2,11 @@ import streamlit as st
 from function.public_function import load_css, load_image
 from widget.widget import navbar, script_footer
 from streamlit_extras.stylable_container import stylable_container
+from clean.neo4j_skillpath import Neo4jSkillPath
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 st.set_page_config(
 	page_icon="🧊",
@@ -15,24 +19,12 @@ st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootst
 
 navbar()
 
+neo4jskillpath = Neo4jSkillPath("neo4j://neo4j:7687", "neo4j", os.getenv("NEO4J_PASSWORD"), os.getenv("NEO4J_DB_NAME"))
+
+
 # ---------------------------------------------------------------------------- #
 #                                     Body                                     #
 # ---------------------------------------------------------------------------- #
-
-# empty_c1, col_2, col_3, col_4, col_5, empty_c6 = st.columns(6)
-# with col_2:
-#     keywords = st.text_input("What", placeholder="Enter keywords")
-# with col_3:
-#     option = st.selectbox(
-#     "How would you like to be contacted?",
-#     ("Email", "Home phone", "Mobile phone"),
-#     index=None,
-#     placeholder="Any classification",
-#     label_visibility="hidden")
-# with col_4:
-#     city = st.text_input("Where", placeholder="Enter city ")
-# with col_5:
-#     st.write("Column 5")
 
 with st.form("my_form", border=False): #st.form ฟอร์มสำหรบัใส่ข้อความที่มีการส่งไปจริงๆ
 	empty_c1, col_2, col_3, col_4, col_5, empty_c6 = st.columns(6)
@@ -65,60 +57,51 @@ with st.form("my_form", border=False): #st.form ฟอร์มสำหรบ�
 			submitted = st.form_submit_button("Submit", width="stretch")
 
 
-# custom_css = """
-# <style>
-#     /* กำหนด CSS Class ที่เราจะใช้กับ <div> ของเรา */
-#     .custom-padded-box {
-#         /* สไตล์ตามที่ต้องการ */
-#         border-radius: 16px; /* ขอบโค้งมน */
-#         background-color: #e0f7fa; /* สีพื้นหลังอ่อนๆ (Light Cyan) */
-#         border: 2px solid #00bcd4; /* ขอบสีฟ้า */
-#         padding: 30px; /* เพิ่ม padding ภายในกล่อง */
-#         margin-top: 15px;
-#         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-#     }
-# </style>
-# """
-# แทรก CSS เข้าไปในหน้าเว็บ
-# st.markdown(custom_css, unsafe_allow_html=True)
-# ------------------------------------------------------------------
-
 recommended_job_config = {
-	'scg_figma': {
+	'scg_Data Scientist': {
 		'logo': 'src/img/scg_logo.svg',
-		'title': 'Figma Designer',
+		'title': 'Data Scientist',
 		'company': 'The Siam Cement Public Company Limited (SCG)',
 		'location': 'Bangkok',
 		'salary': '฿9,500 per month', 
-		'description': 'We are looking for Figma designers who can help design the entire mobile application ...',
-		'skills': ['Ui Designer', 'Figma', 'Landing Page', 'User Research']
+		'description': 'We are looking for Data Scientist who can help design the entire Model ...',
+		'skills': ['Python', 'Machine Learning', 'SQL', 'Statistics', 'Visualization']
 	},
-	'scg_ux': {
+	'scg_Data Engineer': {
 		'logo': 'src/img/scg_logo.svg',
-		'title': 'UX Designer',
+		'title': 'Data Engineer',
 		'company': 'The Siam Cement Public Company Limited (SCG)',
 		'location': 'Bangkok',
 		'salary': '฿12,000 per month',
-		'description': 'Join our UX team to create intuitive and delightful experiences for users ...',
-  		'skills': ['Ui Designer', 'Figma', 'Landing Page']
+		'description': 'Join our DE team to create intuitive and delightful experiences for users ...',
+  		'skills': ['Python', 'SQL', 'ETL', 'Docker']
 	},
-	'scg_ug': {
-		'logo': 'src/img/scg_logo.svg',
-		'title': 'UX Designer',
-		'company': 'The Siam Cement Public Company Limited (SCG)',
+	'ptt_Machine Learning Engineer': {
+		'logo': 'src/img/ptt_logo.svg',
+		'title': 'Machine Learning Engineer',
+		'company': 'PTT Public Company Limited (PTT)',
 		'location': 'Bangkok',
 		'salary': '฿12,000 per month',
-		'description': 'Join our UX team to create intuitive and delightful experiences for users ...',
-  		'skills': ['Ui Designer', 'Figma']
+		'description': 'Join our Machine Learning Engineer to create intuitive and delightful experiences for users ...',
+  		'skills': ['Python', 'MLOps', 'Docker']
 	},
-	'scg_ui': {
+	'ptt_Data Analyst': {
+		'logo': 'src/img/ptt_logo.svg',
+		'title': 'Data Analyst',
+		'company': 'PTT Public Company Limited (PTT)',
+		'location': 'Bangkok',
+		'salary': '฿5,000 per month',
+		'description': 'Join our Data Analyst team to create intuitive and delightful experiences for users ...',
+		'skills': ['Python', 'SQL', 'Visualization']
+	},
+	'scg_Business Analyst': {
 		'logo': 'src/img/scg_logo.svg',
-		'title': 'UX Designer',
+		'title': 'Business Analyst',
 		'company': 'The Siam Cement Public Company Limited (SCG)',
 		'location': 'Bangkok',
-		'salary': '฿12,000 per month',
-		'description': 'Join our UX team to create intuitive and delightful experiences for users ...',
-		'skills': ['Ui Designer', 'Figma']
+		'salary': '฿7,000 per month',
+		'description': 'Join our Business Analyst team to create intuitive and delightful experiences for users ...',
+		'skills': ['SQL', 'Visualization']
 	}
 }
 
@@ -137,7 +120,7 @@ for key, job in recommended_job_config.items():
 					<img src="data:image/svg+xml;base64,{load_image(job['logo'])}" width="50"/>
 				</div>
 				<div>
-					<p style='margin: 0; font-weight: bold; font-size: 18px;'>{job['title']}</p>
+					<a href="/Job_Page" target="_self" style='margin: 0; font-weight: bold; font-size: 18px; color: black; text-decoration: none;'>{job['title']}</a>
 					<p style='margin: 0;'>{job['company']}</p>
 					<p style='margin: 5px 0 0 0;'>
 						<img src="data:image/svg+xml;base64,{load_image("src/img/Location.svg")}" 
@@ -149,6 +132,11 @@ for key, job in recommended_job_config.items():
 			</div>
 		</div>
 		""", unsafe_allow_html=True)
+
+
+# ------------------------------ matching neo4j ------------------------------ #
+
+# ------------------------------------ end ----------------------------------- #
 
 def create_skill_badge(skills: list):
     badges_html = ""
