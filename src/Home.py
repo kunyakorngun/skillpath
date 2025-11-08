@@ -3,6 +3,7 @@ from function.public_function import load_css, load_image
 from widget.widget import navbar, script_footer
 from streamlit_extras.stylable_container import stylable_container
 from clean.neo4j_skillpath import Neo4jSkillPath
+from clean.neo4j_getskill import load_skill_dict
 from dotenv import load_dotenv
 import os
 
@@ -19,8 +20,8 @@ st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootst
 
 navbar()
 
-neo4jskillpath = Neo4jSkillPath("neo4j://neo4j:7687", "neo4j", os.getenv("NEO4J_PASSWORD"), os.getenv("NEO4J_DB_NAME"))
-
+# neo4jskillpath = Neo4jSkillPath("neo4j://neo4j:7687", "neo4j", os.getenv("NEO4J_PASSWORD"), os.getenv("NEO4J_DB_NAME"))
+# neo4jskillpath = Neo4jSkillPath("bolt://localhost:7687", "neo4j", os.getenv("NEO4J_PASSWORD"), os.getenv("NEO4J_DB_NAME"))
 
 # ---------------------------------------------------------------------------- #
 #                                     Body                                     #
@@ -57,6 +58,10 @@ with st.form("my_form", border=False): #st.form ฟอร์มสำหรบ�
 			submitted = st.form_submit_button("Submit", width="stretch")
 
 
+# ------------------------------ matching neo4j ------------------------------ #
+driver = Neo4jSkillPath("neo4j://neo4j:7687", "neo4j", os.getenv("NEO4J_PASSWORD"), os.getenv("NEO4J_DB_NAME"))
+skill_dict = load_skill_dict(driver=driver)
+# ------------------------------------ end ----------------------------------- #
 recommended_job_config = {
 	'scg_Data Scientist': {
 		'logo': 'src/img/scg_logo.svg',
@@ -65,7 +70,7 @@ recommended_job_config = {
 		'location': 'Bangkok',
 		'salary': '฿9,500 per month', 
 		'description': 'We are looking for Data Scientist who can help design the entire Model ...',
-		'skills': ['Python', 'Machine Learning', 'SQL', 'Statistics', 'Visualization']
+		'skills': skill_dict.get("skill_scg_datascientist", [])
 	},
 	'scg_Data Engineer': {
 		'logo': 'src/img/scg_logo.svg',
@@ -74,7 +79,7 @@ recommended_job_config = {
 		'location': 'Bangkok',
 		'salary': '฿12,000 per month',
 		'description': 'Join our DE team to create intuitive and delightful experiences for users ...',
-  		'skills': ['Python', 'SQL', 'ETL', 'Docker']
+  		'skills': skill_dict.get("skill_scg_dataengineer", [])
 	},
 	'ptt_Machine Learning Engineer': {
 		'logo': 'src/img/ptt_logo.svg',
@@ -83,7 +88,7 @@ recommended_job_config = {
 		'location': 'Bangkok',
 		'salary': '฿12,000 per month',
 		'description': 'Join our Machine Learning Engineer to create intuitive and delightful experiences for users ...',
-  		'skills': ['Python', 'MLOps', 'Docker']
+  		'skills': skill_dict.get("skill_ptt_machinelearningengineer", [])
 	},
 	'ptt_Data Analyst': {
 		'logo': 'src/img/ptt_logo.svg',
@@ -92,7 +97,7 @@ recommended_job_config = {
 		'location': 'Bangkok',
 		'salary': '฿5,000 per month',
 		'description': 'Join our Data Analyst team to create intuitive and delightful experiences for users ...',
-		'skills': ['Python', 'SQL', 'Visualization']
+		'skills': skill_dict.get("skill_ptt_dataanalyst", [])
 	},
 	'scg_Business Analyst': {
 		'logo': 'src/img/scg_logo.svg',
@@ -101,7 +106,7 @@ recommended_job_config = {
 		'location': 'Bangkok',
 		'salary': '฿7,000 per month',
 		'description': 'Join our Business Analyst team to create intuitive and delightful experiences for users ...',
-		'skills': ['SQL', 'Visualization']
+		'skills': skill_dict.get("skill_scg_businessanalyst", [])
 	}
 }
 
@@ -134,9 +139,6 @@ for key, job in recommended_job_config.items():
 		""", unsafe_allow_html=True)
 
 
-# ------------------------------ matching neo4j ------------------------------ #
-
-# ------------------------------------ end ----------------------------------- #
 
 def create_skill_badge(skills: list):
     badges_html = ""
@@ -181,6 +183,7 @@ for key, job in recommended_job_config.items():
                 {create_skill_badge(job['skills'])}
         </div>
         """, unsafe_allow_html=True)
+
 
 
 # ---------------------------------------------------------------------------- #
