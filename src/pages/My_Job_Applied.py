@@ -15,7 +15,7 @@ navbar()
 job = {
 
     'logo': 'src/img/scg_logo.svg',
-    'title': 'Figma Designer',
+    'title': 'Data Scientist',
     'company': 'The Siam Cement Public Company Limited (SCG)',
     'location': 'Bangkok',
     'salary': ' 12,000 per month',
@@ -138,17 +138,17 @@ job = {
 #         font-size: 13px;
 #     }
 
-#     .status-icon {
-#         width: 20px;
-#         height: 20px;
-#         background-color: #22C55E;
-#         color: white;
-#         border-radius: 50%;
-#         display: flex;
-#         align-items: center;
-#         justify-content: center;
-#         font-weight: bold;
-#     }
+    # .status-icon {
+    #     width: 20px;
+    #     height: 20px;
+    #     background-color: #22C55E;
+    #     color: white;
+    #     border-radius: 50%;
+    #     display: flex;
+    #     align-items: center;
+    #     justify-content: center;
+    #     font-weight: bold;
+    # }
 #     </style>
 
 #     <div class="card-container">
@@ -180,24 +180,86 @@ job = {
 #     """, unsafe_allow_html=True)
 
 
-jobs = [
-    {
-        "position": "Figma Designer",
-        "company": "The Siam Cement Public Company Limited (SCG.)",
-        "location": "Bangkok",
-        "status": "Read by HR",
-        "date": "Sep 20, 2025",
-        "progress": 2  # 1=Sent Resume, 2=Read by HR, 3=Interview Appointment, 4=Interview Results
-    },
-    {
-        "position": "UX/UI Designer",
-        "company": "The Siam Cement Public Company Limited (SCG.)",
-        "location": "Bangkok",
-        "status": "Sent Resume",
-        "date": "Sep 20, 2025",
-        "progress": 1
-    }
-]
+STATUS_MAP = {
+    1: "Default",
+    2: "Sent Resume",
+    3: "Read by HR",
+    4: "Interview Appointment",
+    5: "Interview Results"
+}
+
+import psycopg2
+import streamlit as st
+
+STATUS_MAP = {
+    1: "Default",
+    2: "Sent Resume",
+    3: "Read by HR",
+    4: "Interview Appointment",
+    5: "Interview Results"
+}
+
+def fetch_jobs():
+    try:
+        conn = psycopg2.connect(
+            host="postgres",
+            database="postgres",
+            user="skillpath",
+            password="skillpath123",
+            port=5432
+        )
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT id, position, company, location, date, progress
+            FROM applied_process
+            ORDER BY id ASC;
+        """)
+
+        rows = cur.fetchall()
+
+        jobs = []
+        for row in rows:
+            job_id, position, company, location, date_val, progress = row
+
+            jobs.append({
+                "id": job_id,
+                "position": position,
+                "company": company,
+                "location": location,
+                "date": date_val.strftime("%b %d, %Y"),  # format date
+                "progress": progress,
+                "status": STATUS_MAP.get(progress, "Unknown")
+            })
+
+        cur.close()
+        conn.close()
+        return jobs
+
+    except Exception as e:
+        st.error(f"❌ Database error: {e}")
+        return []
+    
+jobs = fetch_jobs()
+
+# jobs = [
+#     {
+#         "position": "Data Scientist",
+#         "company": "The Siam Cement Public Company Limited (SCG.)",
+#         "location": "Bangkok",
+#         "status": "Sent Resume",
+#         "date": "Sep 20, 2025",
+#         "progress": 1 #  1= defualt 2=Sent Resume, 3=Read by HR, 4=Interview Appointment, 5=Interview Results
+#     },
+#     {
+#         "position": "Data Engineer",
+#         "company": "The Siam Cement Public Company Limited (SCG.)",
+#         "location": "Bangkok",
+#         "status": "Read by HR",
+#         "date": "Sep 20, 2025",
+#         "progress": 2
+#     }
+# ]
 
 # --- CSS ---
 st.markdown("""
@@ -304,13 +366,13 @@ with col2:
 	# --- For Loop: Render Each Job Card ---
 	for job in jobs:
 		# ✅ เพิ่มส่วนนี้
-		if job["progress"] == 1:
+		if job["progress"] == 2:
 			gradient = "linear-gradient(to right, #E5785B 0%, #FBC4B0 20%, #2E367D 30%, #2E367D 100%)"
-		elif job["progress"] == 2:
-			gradient = "linear-gradient(to right, #E5785B 0%, #FBC4B0 40%, #2E367D 50%, #2E367D 100%)"
 		elif job["progress"] == 3:
-			gradient = "linear-gradient(to right, #E5785B 0%, #FBC4B0 65%, #2E367D 75%, #2E367D 100%)"
+			gradient = "linear-gradient(to right, #E5785B 0%, #FBC4B0 40%, #2E367D 50%, #2E367D 100%)"
 		elif job["progress"] == 4:
+			gradient = "linear-gradient(to right, #E5785B 0%, #FBC4B0 65%, #2E367D 75%, #2E367D 100%)"
+		elif job["progress"] == 5:
 			gradient = "linear-gradient(to right, #E5785B 0%, #FBC4B0 100%)"
 		else:
 			gradient = "linear-gradient(to right, #2E367D 100%)"
@@ -321,10 +383,10 @@ with col2:
 		html = f"""
 		<div class="card">
 			<div class="progress-bar" style="background: {gradient};">
-				<div class="progress-step {'active' if job['progress'] >= 1 else ''}"></div>
 				<div class="progress-step {'active' if job['progress'] >= 2 else ''}"></div>
 				<div class="progress-step {'active' if job['progress'] >= 3 else ''}"></div>
 				<div class="progress-step {'active' if job['progress'] >= 4 else ''}"></div>
+				<div class="progress-step {'active' if job['progress'] >= 5 else ''}"></div>
 			</div>
 			<div class="progress-labels">
 				<p>Sent Resume</p>

@@ -98,16 +98,16 @@ def navbar():
                 <div class="navbar-center">
                     <ul class="navbar-nav mx-auto bg-white rounded-pill px-3 py-1" style="border-radius: 5px; line-height: 1px;">
                         <li class="nav-item px-3">
-                            <a class="nav-link text-dark font-weight-medium" target="_self" href="/">Home</a>
+                            <a class="nav-link text-dark font-weight-medium" style='text-decoration: none;' target="_self" href="/">Home</a>
                         </li>
                         <li class="nav-item px-3">
-                            <a class="nav-link text-dark font-weight-medium" target="_self" href="/My_Job_Applied">My Job Applied</a>
+                            <a class="nav-link text-dark font-weight-medium" style='text-decoration: none;' target="_self" href="/My_Job_Applied">My Job Applied</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar-right d-flex align-items-center">
-                    <a class="nav-link text-white font-weight-medium" target="_self" href="/For_Company">For Company</a>
-                    <a class="nav-link text-white font-weight-medium" target="_self" href="/Student_Profile">My Profile</a>
+                    <a class="nav-link text-white font-weight-medium" style='text-decoration: none;' target="_self" href="/For_Company">For Company</a>
+                    <a class="nav-link text-white font-weight-medium" style='text-decoration: none;' target="_self" href="/Student_Profile">My Profile</a>
                     <img src="data:image/svg+xml;base64,{load_image('src/img/Bell.svg')}" width="17" style="margin: 6px;">
                     <img src="data:image/svg+xml;base64,{load_image('src/img/bookmark.svg')}" width="17" style="margin: 6px;">
                     <img src="data:image/svg+xml;base64,{load_image('src/img/letter.svg')}" width="17" style="margin: 6px;">
