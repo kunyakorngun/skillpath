@@ -1,0 +1,50 @@
+services:
+  neo4j:
+    container_name: neo4j
+    image: neo4j:community-ubi9
+    ports:
+      - 7474:7474
+      - 7687:7687
+    environment:
+      - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
+      - NEO4J_initial_dbms_default__database=${NEO4J_DB_NAME}
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+      - NEO4J_dbms_security_procedures_whitelist=apoc.*
+    volumes:
+      - ./neo4j_db/data:/data
+      - ./neo4j_db/logs:/logs
+      - ./neo4j_db/config:/var/lib/neo4j/config
+      - ./neo4j_db/plugins:/plugins
+  streamlit:
+    build: .
+    ports:
+      - 8501:8501
+    volumes:
+      - ./src:/app/src
+  
+  postgres:
+    image: postgres:18 # Specifies the PostgreSQL image and version
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432" # Maps host port 5432 to container port 5432
+    volumes:
+      - ./postgres_db/data:/data # Persists database data using a named volume
+
+  n8n:
+    image: n8nio/n8n
+    environment:
+      - GENERIC_TIMEZONE=Asia/Bangkok
+      - TZ=Asia/Bangkok
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_RUNNERS_ENABLED=true 
+    ports:
+      - "5678:5678"
+    volumes:
+      - ./n8n_db:/home/node/.n8n
